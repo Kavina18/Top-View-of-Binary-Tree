@@ -1,0 +1,57 @@
+class Node_dist{
+    Node node;
+    int dist;
+    
+    Node_dist(Node node,int dist){
+        this.node = node;
+        this.dist = dist;
+    }
+    
+}
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root) {
+        
+        
+        Queue<Node_dist> q = new LinkedList<>();
+        Map<Integer,Integer> hm = new TreeMap<>();
+        
+        Node_dist n = new Node_dist(root,0);
+        
+        q.add(n);
+        
+        while(!q.isEmpty()){
+            
+            int qsize = q.size();
+             
+            for(int i=0;i<qsize;i++){
+                
+                Node_dist rem = q.poll();
+                
+                if(!hm.containsKey(rem.dist)){
+                    hm.put(rem.dist,rem.node.data);
+                }
+                
+                if(rem.node.left != null){
+                    Node_dist  nl = new Node_dist(rem.node.left,rem.dist-1);
+                    q.add(nl);
+                }
+                
+                if(rem.node.right != null){
+                    Node_dist  nr = new Node_dist(rem.node.right,rem.dist+1);
+                    q.add(nr);
+                }
+                
+            }
+        }
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        
+        for(int val : hm.values()){
+            res.add(val);
+        }
+        
+        return res;
+    }
+}.
